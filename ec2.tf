@@ -9,3 +9,11 @@ resource "aws_instance" "hpaiva-ec2" {
   }
 }
 */
+
+/*====
+ECS cluster
+AmazonECS_FullAccess
+======*/
+resource "aws_ecs_cluster" "cluster" {
+  name = "${var.environment}-ecs-cluster"
+} 

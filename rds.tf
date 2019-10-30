@@ -19,8 +19,7 @@ resource "aws_subnet" "rds" {
 resource "aws_db_subnet_group" "default" {
   name        = "${var.environment}-database-subnet-group"
   description = "Terraform example RDS subnet group"
- subnet_ids = ["${element(aws_subnet.public_subnet.*.id, 0)}", "${element(aws_subnet.public_subnet.*.id, 1)}"]
-
+  subnet_ids = ["${element(aws_subnet.public_subnet.*.id, 0)}", "${element(aws_subnet.public_subnet.*.id, 1)}"]
  }
 
 /* Security Group for resources that want to access the Database */
