@@ -1,3 +1,4 @@
+/**
 resource "aws_instance" "hpaiva-ec2" {
   ami           = var.amis[var.region]
   instance_type = "t2.micro"
@@ -7,3 +8,4 @@ resource "aws_instance" "hpaiva-ec2" {
     command = "echo ${aws_instance.hpaiva-ec2.public_ip} > ip_address.txt"
   }
 }
+*/
