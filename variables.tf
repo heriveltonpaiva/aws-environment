@@ -6,11 +6,6 @@ variable "environment" {
   default = "prod"
 }
 
-
-variable "repository_name" {
-  default = "project-2019"
-}
-
 variable "amis" {
   type = "map"
   default = {

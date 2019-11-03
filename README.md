@@ -41,7 +41,6 @@ Now, let's to do login with o profile
 ```
 
 Build, tag and push your image to this repository your Docker image using the following command.
-
 ```bash
 docker build -t my-repository .
 docker tag my-repository:latest 123456789.dkr.ecr.us-east-1.amazonaws.com/my-repository:latest

@@ -3,5 +3,17 @@ variable "ecs_cluster_name" {
 }
 
 variable "ecs_service_name" {
-  default = "publication-server"
+  default = "aws-project"
 }
+
+variable "environment" {}
+
+variable "ecr" {}
+
+variable "public_subnet" {}
+
+variable "private_subnet" {}
+
+variable "target_group" {}
+
+variable "security_group" {}

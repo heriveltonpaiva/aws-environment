@@ -1,3 +1,1 @@
-variable "environment" {
-  default = "prod"
-}
+variable "environment" {}

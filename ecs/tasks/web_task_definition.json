@@ -21,7 +21,7 @@
       "environment": [
         {
           "name": "ENV",
-          "value": "production"
+          "value": "prod"
         },
         {
           "name": "PORT",

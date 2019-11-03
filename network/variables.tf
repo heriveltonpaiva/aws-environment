@@ -1,7 +1,3 @@
-variable "environment" {
-  default = "prod"
-}
-
 variable "public_subnets_cidr" {
   type = "list"
   default = [
@@ -26,3 +22,5 @@ variable "availability_zones" {
     "us-east-1e"
   ]
 }
+
+variable "environment" {}
