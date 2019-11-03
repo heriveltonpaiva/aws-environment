@@ -24,14 +24,6 @@
           "value": "production"
         },
         {
-          "name": "DATABASE_URL",
-          "value": "${database_url}"
-        },
-        {
-          "name": "SECRET_KEY_BASE",
-          "value": "${secret_key_base}"
-        },
-        {
           "name": "PORT",
           "value": "80"
         }

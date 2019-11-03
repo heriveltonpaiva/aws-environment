@@ -8,7 +8,7 @@ resource "aws_alb_target_group" "alb_target_group" {
   name     = "prod-alb-target-group-231321"#${random_string.random}"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = "${aws_vpc.vpc.id}"
+  vpc_id   = module.network.vpc_id
   target_type = "ip"
 
   lifecycle {
@@ -20,7 +20,7 @@ resource "aws_alb_target_group" "alb_target_group" {
 resource "aws_security_group" "web_inbound_sg" {
   name        = "${var.environment}-web-inbound-sg"
   description = "Allow HTTP from Anywhere into ALB"
-  vpc_id      = "${aws_vpc.vpc.id}"
+  vpc_id      = module.network.vpc_id
 
   ingress {
     from_port   = 80
@@ -50,23 +50,23 @@ resource "aws_security_group" "web_inbound_sg" {
 
 resource "aws_alb" "alb_openjobs" {
   name            = "${var.environment}-alb-openjobs"
-  subnets         = ["${element(aws_subnet.public_subnet.*.id, 0)}", "${element(aws_subnet.public_subnet.*.id, 1)}"]
-  security_groups = ["${aws_security_group.db_access_sg.id}", "${aws_security_group.web_inbound_sg.id}"]
+  subnets         = [element(module.network.public_subnet.*.id, 0), "${element(module.network.public_subnet.*.id, 1)}"]
+  security_groups = [aws_security_group.db_access_sg.id, "${aws_security_group.web_inbound_sg.id}"]
 
   tags = {
     Name        = "${var.environment}-alb-openjobs"
-    Environment = "${var.environment}"
+    Environment = var.environment
   }
 }
 
 resource "aws_alb_listener" "openjobs" {
-  load_balancer_arn = "${aws_alb.alb_openjobs.arn}"
+  load_balancer_arn = aws_alb.alb_openjobs.arn
   port              = "80"
   protocol          = "HTTP"
   depends_on        = ["aws_alb_target_group.alb_target_group"]
 
   default_action {
-    target_group_arn = "${aws_alb_target_group.alb_target_group.arn}"
+    target_group_arn = aws_alb_target_group.alb_target_group.arn
     type             = "forward"
   }
 }

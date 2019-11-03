@@ -2,37 +2,12 @@
 RDS
 ======*/
 
-/** 
-resource "aws_subnet" "rds" {
-  count                   = "${length(var.availability_zones)}"
-  vpc_id                  = "${aws_vpc.vpc.id}"
-  cidr_block              = "10.0.${length(var.availability_zones) + count.index}.0/24"
-  map_public_ip_on_launch = true
-  availability_zone       = "${element(var.availability_zones, count.index)}"
-  tags = {
-    Name = "rds-${element(var.availability_zones, count.index)}"
-  }
-}
-*/
-
-/* subnet used by rds */
+/* subnet used by rds
 resource "aws_db_subnet_group" "default" {
   name        = "${var.environment}-database-subnet-group"
   description = "Terraform example RDS subnet group"
   subnet_ids = ["${element(aws_subnet.public_subnet.*.id, 0)}", "${element(aws_subnet.public_subnet.*.id, 1)}"]
  }
-
-/* Security Group for resources that want to access the Database */
-resource "aws_security_group" "db_access_sg" {
-  vpc_id      = "${aws_vpc.vpc.id}"
-  name        = "${var.environment}-db-access-sg"
-  description = "Allow access to RDS"
-  depends_on  = ["aws_vpc.vpc"]
-  tags = {
-    Name        = "${var.environment}-db-access-sg"
-    Environment = "${var.environment}"
-  }
-}
 
 resource "aws_security_group" "rds_sg" {
   name = "${var.environment}-rds-sg"
@@ -43,7 +18,6 @@ resource "aws_security_group" "rds_sg" {
     Environment =  "${var.environment}"
   }
 
-  // allows traffic from the SG itself
   ingress {
       from_port = 0
       to_port = 0
@@ -51,15 +25,13 @@ resource "aws_security_group" "rds_sg" {
       self = true
   }
 
-  //allow traffic for TCP 5432
   ingress {
       from_port = 5432
       to_port   = 5432
       protocol  = "tcp"
-      security_groups = ["${aws_security_group.db_access_sg.id}"]
+      security_groups = [aws_security_group.db_access_sg.id]
   }
 
-  // outbound internet access
   egress {
     from_port = 0
     to_port = 0
@@ -86,3 +58,4 @@ resource "aws_db_instance" "rds" {
     Environment = "${var.environment}"
   }
 }
+*/

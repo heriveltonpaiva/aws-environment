@@ -1,3 +1,4 @@
+/**
 resource "aws_appautoscaling_target" "target" {
   service_namespace  = "ecs"
   resource_id        = "service/${aws_ecs_cluster.cluster.name}/${aws_ecs_service.web.name}"
@@ -8,7 +9,7 @@ resource "aws_appautoscaling_target" "target" {
 }
 
 resource "aws_appautoscaling_policy" "up" {
-  name                    = "${var.environment}_scale_up"
+  name                    = "${data.terraform_remote_state.remote.outputs.environment}_scale_up"
   service_namespace       = "ecs"
   resource_id             = "service/${aws_ecs_cluster.cluster.name}/${aws_ecs_service.web.name}"
   scalable_dimension      = "ecs:service:DesiredCount"
@@ -29,7 +30,7 @@ resource "aws_appautoscaling_policy" "up" {
 }
 
 resource "aws_appautoscaling_policy" "down" {
-  name                    = "${var.environment}_scale_down"
+  name                    = "${data.terraform_remote_state.remote.outputs.environment}_scale_down"
   service_namespace       = "ecs"
   resource_id             = "service/${aws_ecs_cluster.cluster.name}/${aws_ecs_service.web.name}"
   scalable_dimension      = "ecs:service:DesiredCount"
@@ -48,9 +49,9 @@ resource "aws_appautoscaling_policy" "down" {
   depends_on = ["aws_appautoscaling_target.target"]
 }
 
-/* metric used for auto scale */
+metric used for auto scale
 resource "aws_cloudwatch_metric_alarm" "service_cpu_high" {
-  alarm_name          = "${var.environment}_openjobs_web_cpu_utilization_high"
+  alarm_name          = "${data.terraform_remote_state.remote.outputs.environment}_openjobs_web_cpu_utilization_high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "2"
   metric_name         = "CPUUtilization"
@@ -67,3 +68,4 @@ resource "aws_cloudwatch_metric_alarm" "service_cpu_high" {
   alarm_actions = ["${aws_appautoscaling_policy.up.arn}"]
   ok_actions    = ["${aws_appautoscaling_policy.down.arn}"]
 }
+*/
